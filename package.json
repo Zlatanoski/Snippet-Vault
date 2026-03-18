@@ -1,0 +1,8 @@
+{
+  "name": "snippet-vault",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build"
+  }
+}
