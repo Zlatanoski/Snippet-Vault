@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────────────────────────────
+   Single source of truth for every color in the app.
+   Tailwind maps named utility classes to these variables (see tailwind.config.js).
+   Dark mode is handled here — components never need a `dark:` prefix.
+   ──────────────────────────────────────────────────────────────────────────── */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 20px; /* bump up from default 16px */
+
+    zoom: 1.0;
+
+}
+:root {
+  /* Surfaces */
+  --color-surface-page:   #eceae4;
+  --color-surface-base:   #f5f4f0;
+  --color-surface-raised: #ffffff;
+  --color-surface-info:   #e6f1fb;
+
+  /* Content / text */
+  --color-content-primary:   #1a1a18;
+  --color-content-secondary: #6b6a65;
+  --color-content-tertiary:  #9b9a95;
+  --color-content-info:      #185fa5;
+
+  /* Named border color (opacity borders stay as black/10 etc.) */
+  --color-border-info: #378add;
+
+  /* Language badge pairs */
+  --color-lang-ts-bg:   #e6f1fb;  --color-lang-ts-fg:   #185fa5;
+  --color-lang-js-bg:   #faeeda;  --color-lang-js-fg:   #854f0b;
+  --color-lang-py-bg:   #eaf3de;  --color-lang-py-fg:   #3b6d11;
+  --color-lang-sh-bg:   #faeeda;  --color-lang-sh-fg:   #854f0b;
+  --color-lang-sql-bg:  #eeedfe;  --color-lang-sql-fg:  #3c3489;
+  --color-lang-css-bg:  #fbeaf0;  --color-lang-css-fg:  #993556;
+  --color-lang-json-bg: #f1efe8;  --color-lang-json-fg: #5f5e5a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Surfaces */
+    --color-surface-page:   #2c2c2a;
+    --color-surface-base:   #252523;
+    --color-surface-raised: #1e1e1c;
+    --color-surface-info:   #042c53;
+
+    /* Content / text */
+    --color-content-primary:   #e8e6de;
+    --color-content-secondary: #9b9a95;
+    --color-content-tertiary:  #6b6a65;
+    --color-content-info:      #85b7eb;
+
+    /* Language badge pairs */
+    --color-lang-ts-bg:   #042c53;  --color-lang-ts-fg:   #85b7eb;
+    --color-lang-js-bg:   #412402;  --color-lang-js-fg:   #fac775;
+    --color-lang-py-bg:   #173404;  --color-lang-py-fg:   #97c459;
+    --color-lang-sh-bg:   #412402;  --color-lang-sh-fg:   #fac775;
+    --color-lang-sql-bg:  #26215c;  --color-lang-sql-fg:  #afa9ec;
+    --color-lang-css-bg:  #4b1528;  --color-lang-css-fg:  #ed93b1;
+    --color-lang-json-bg: #2c2c2a;  --color-lang-json-fg: #b4b2a9;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
