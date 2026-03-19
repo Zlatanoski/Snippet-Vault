@@ -2,6 +2,7 @@
   "name": "@snippet-vault/db",
   "main": "./index.ts",
   "dependencies": {
+    "@paralleldrive/cuid2": "^3.3.0",
     "drizzle-orm": "^0.30.0",
     "postgres": "^3.0.0"
   },
