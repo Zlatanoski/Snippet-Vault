@@ -4,23 +4,39 @@ import { compare, hash } from "bcryptjs";
 import { db } from "../lib/db";
 import {eq} from "drizzle-orm";
 import { users } from "@snippet-vault/db";
+import { z } from "zod";
+import { zValidator } from "@hono/zod-validator";
+
+
+//validate schema for the email // automatically return 400 if the validation fails
+const registerSchema = z.object({
+    email: z.email(),
+    username: z.string().min(3).max(20),
+    password: z.string().min(6),
+});
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET ?? "change",
 );
 
 export const authRoutes = new Hono()
-  .post("/register", async (c) => {
-    const { email, username, password } = await c.req.json();
+  .post("/register",zValidator('json',registerSchema) ,async (c) => {
 
-    if (!email || !username || !password) {
-      return c.json({ error: "Missing required fields" }, 400);
-    }
-
+    const { email, username, password } = c.req.valid("json");
     const hashedPassword = await hash(password, 10);
 
- // Insert the registered user in the DB
-    return c.json({ message: "register route — not yet implemented" }, 501);
+    // checks if the email is already in use
+    const existing = await db.select().from(users).where(eq(users.email,email)).limit(1);
+    if (existing.length > 0) {
+        return c.json({ error: "Email already in use" }, 409);
+    }
+    //passed this so insert
+    const [newUser] = await db.insert(users).values({ email, username, password: hashedPassword }).returning();
+
+    return c.json({ id: newUser.id, email: newUser.email }, 201);
+
+
+
   })
   .post("/login", async (c) => {
     const { email, password } = await c.req.json();
@@ -30,5 +46,5 @@ export const authRoutes = new Hono()
     }
 
   // Fetch the user and comparehash the password
-    return c.json({ message: "login route — not yet implemented" }, 501);
+
   });
