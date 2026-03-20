@@ -1,11 +1,13 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "bundler",
     "module": "ESNext",
     "target": "ESNext",
-    "types": ["node"]
+    "types": ["node"],
+    "allowImportingTsExtensions": true
   },
   "include": ["src"]
 }
