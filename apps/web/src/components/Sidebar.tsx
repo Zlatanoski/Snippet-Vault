@@ -1,40 +1,13 @@
+
+import
+{ useState, useEffect } from 'react';
+import { LayoutList, Star, Lock, ChevronDown, X, Search, Sun, Moon } from 'lucide-react';
 import type { NavItem, Tag } from '../types';
 
-// ── Icons ─────────────────────────────────────────────────────────────────────
-
-const iconClass = 'h-4 w-4 shrink-0 stroke-current [fill:none] [stroke-linecap:round] [stroke-width:1.5]';
-
-function IconAll() {
-    return (
-        <svg viewBox="0 0 14 14" className={iconClass}>
-            <rect x="1" y="1" width="12" height="12" rx="2" />
-            <line x1="4" y1="5" x2="10" y2="5" />
-            <line x1="4" y1="8" x2="8" y2="8" />
-        </svg>
-    );
-}
-
-function IconFavourites() {
-    return (
-        <svg viewBox="0 0 14 14" className={iconClass}>
-            <polygon points="7,1 8.8,5.2 13.5,5.7 10,9 11,13.5 7,11 3,13.5 4,9 0.5,5.7 5.2,5.2" />
-        </svg>
-    );
-}
-
-function IconPrivate() {
-    return (
-        <svg viewBox="0 0 14 14" className={iconClass}>
-            <rect x="1" y="4" width="12" height="9" rx="2" />
-            <path d="M4 4V3a3 3 0 016 0v1" />
-        </svg>
-    );
-}
-
 const NAV_ICONS: Record<NavItem['icon'], React.ReactNode> = {
-    all:        <IconAll />,
-    favourites: <IconFavourites />,
-    private:    <IconPrivate />,
+    all:        <LayoutList className="h-4 w-4 shrink-0" />,
+    favourites: <Star className="h-4 w-4 shrink-0" />,
+    private:    <Lock className="h-4 w-4 shrink-0" />,
 };
 
 // ── Sub-components ────────────────────────────────────────────────────────────
@@ -93,7 +66,24 @@ interface Props {
     onClose: () => void;
 }
 
+function useDarkMode() {
+    const [isDark, setIsDark] = useState(() =>
+        document.documentElement.classList.contains('dark') ||
+        (!document.documentElement.classList.contains('light') &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches)
+    );
+
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.classList.toggle('light', !isDark);
+    }, [isDark]);
+
+    return [isDark, () => setIsDark((d) => !d)] as const;
+}
+
 export default function Sidebar({ navItems, tags, activeNavId, isOpen, onNavSelect, onTagSelect, onClose }: Props) {
+    const [isDark, toggleDark] = useDarkMode();
+
     return (
         <>
             {/* Mobile overlay */}
@@ -116,9 +106,7 @@ export default function Sidebar({ navItems, tags, activeNavId, isOpen, onNavSele
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-semibold text-content-primary">
                             <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-surface-info">
-                                <svg viewBox="0 0 12 12" className="h-3.5 w-3.5 stroke-content-info [fill:none] [stroke-linecap:round] [stroke-width:2]">
-                                    <polyline points="2,4 6,8 10,4" />
-                                </svg>
+                                <ChevronDown className="h-3.5 w-3.5 stroke-content-info" strokeWidth={2} />
                             </div>
                             Snippet Vault
                         </div>
@@ -127,18 +115,12 @@ export default function Sidebar({ navItems, tags, activeNavId, isOpen, onNavSele
                             onClick={onClose}
                             className="rounded-lg p-1 text-content-tertiary hover:bg-surface-page md:hidden"
                         >
-                            <svg viewBox="0 0 14 14" className="h-4 w-4 stroke-current [fill:none] [stroke-linecap:round] [stroke-width:1.5]">
-                                <line x1="2" y1="2" x2="12" y2="12" />
-                                <line x1="12" y1="2" x2="2" y2="12" />
-                            </svg>
+                            <X className="h-4 w-4" />
                         </button>
                     </div>
 
                     <div className="mt-3 flex cursor-text items-center gap-2 rounded-lg border border-black/10 bg-surface-raised px-3 py-2 text-sm text-content-tertiary">
-                        <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                            <circle cx="5" cy="5" r="3.5" />
-                            <line x1="8" y1="8" x2="11" y2="11" />
-                        </svg>
+                        <Search className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
                         Search snippets...
                     </div>
                 </div>
@@ -168,6 +150,26 @@ export default function Sidebar({ navItems, tags, activeNavId, isOpen, onNavSele
                         ))}
                     </div>
                 </nav>
+
+                {/* Dark mode toggle */}
+                <div className="border-t border-black/10 px-3 py-3">
+                    <button
+                        onClick={toggleDark}
+                        className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-content-secondary transition-colors hover:bg-surface-page"
+                    >
+                        {isDark ? (
+                            <>
+                                <Sun className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+                                <span>Light mode</span>
+                            </>
+                        ) : (
+                            <>
+                                <Moon className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+                                <span>Dark mode</span>
+                            </>
+                        )}
+                    </button>
+                </div>
             </aside>
         </>
     );

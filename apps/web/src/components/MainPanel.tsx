@@ -1,3 +1,4 @@
+import { Menu } from 'lucide-react';
 import type { Snippet } from '../types';
 import SnippetCard from './SnippetCard';
 
@@ -30,11 +31,7 @@ export default function MainPanel({
                                 onClick={onMenuOpen}
                                 className="rounded-lg p-1.5 text-content-secondary hover:bg-surface-base md:hidden"
                             >
-                                <svg viewBox="0 0 16 16" className="h-4 w-4 stroke-current [fill:none] [stroke-linecap:round] [stroke-width:1.5]">
-                                    <line x1="2" y1="4" x2="14" y2="4" />
-                                    <line x1="2" y1="8" x2="14" y2="8" />
-                                    <line x1="2" y1="12" x2="14" y2="12" />
-                                </svg>
+                                <Menu className="h-4 w-4" strokeWidth={1.5} />
                             </button>
                     <span className="text-base font-semibold text-content-primary">{title}</span>
                 </div>
