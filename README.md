@@ -119,7 +119,7 @@ users ──┬──< snippets >──< snippet_tags >── tags
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/snippet-vault.git
+git clone https://github.com/Zlatanoski/snippet-vault.git
 cd snippet-vault
 
 # Install dependencies
@@ -181,4 +181,4 @@ Please open an issue before working on large changes.
 
 ## License
 
-MIT © [Zlatanoski](https://github.zlatanoski)
+MIT © [Zlatanoski](https://github.com/Zlatanoski)
