@@ -15,36 +15,51 @@ const registerSchema = z.object({
     password: z.string().min(6),
 });
 
+const loginSchema = z.object({
+    email: z.email(),
+    password: z.string().min(6),
+});
+
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? "change",
+    process.env.JWT_SECRET ?? "change",
 );
 
 export const authRoutes = new Hono()
-  .post("/register",zValidator('json',registerSchema) ,async (c) => {
+    .post("/register",zValidator('json',registerSchema) ,async (c) => {
 
-    const { email, username, password } = c.req.valid("json");
-    const hashedPassword = await hash(password, 10);
+        const { email, username, password } = c.req.valid("json");
+        const hashedPassword = await hash(password, 10);
 
-    // checks if the email is already in use
-    const existing = await db.select().from(users).where(eq(users.email,email)).limit(1);
-    if (existing.length > 0) {
-        return c.json({ error: "Email already in use" }, 409);
-    }
-    //passed this so insert
-    const [newUser] = await db.insert(users).values({ email, username, password: hashedPassword }).returning();
+        // checks if the email is already in use
+        const existing = await db.select().from(users).where(eq(users.email,email)).limit(1);
+        if (existing.length > 0) {
+            return c.json({ error: "Email already in use" }, 409);
+        }
+        //passed this so insert
+        const [newUser] = await db.insert(users).values({ email, username, password: hashedPassword }).returning();
 
-    return c.json({ id: newUser.id, email: newUser.email }, 201);
+        return c.json({ id: newUser.id, email: newUser.email }, 201);
 
 
 
-  })
-  .post("/login", async (c) => {
-    const { email, password } = await c.req.json();
+    })
+    .post("/login", zValidator("json", loginSchema), async (c) => {
+        const { email, password } = c.req.valid("json");
 
-    if (!email || !password) {
-      return c.json({ error: "Missing required fields" }, 400);
-    }
+        const [user] = await db.select().from(users).where(eq(users.email,email));
+        if(!user){
+            return c.json({ error: "Invalid credentials" }, 401);
+        }
 
-  // Fetch the user and comparehash the password
+        //does hashing and comparing using the bcrypt js library
+        const validPassword = await compare(password, user.password);
+        if(!validPassword){
+            return c.json({ error: "Invalid credentials" }, 401);
+        }
+        // now we know the user is authenticated so we generate a JWT and pass to frontend
+        const token = await new SignJWT({ userId: user.id }).setProtectedHeader({ alg: "HS256" }).setExpirationTime("2h").sign(JWT_SECRET);
 
-  });
+        return c.json({ token });
+        // Fetch the user and comparehash the password
+
+    });
