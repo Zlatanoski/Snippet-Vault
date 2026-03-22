@@ -1,4 +1,4 @@
-# Snippet Vault
+# Code Vault
 
 > 🚧 **Work in progress** — actively developed. Contributions and feedback welcome!
 
