@@ -2,7 +2,7 @@ import { createMiddleware } from "hono/factory";
 import { jwtVerify } from "jose";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET ?? "change-me-in-production",
+  process.env.JWT_SECRET ?? "changeme",
 );
 
 export type AuthVariables = {

@@ -74,7 +74,7 @@ All tables use `createdAt`/`updatedAt` timestamps. Foreign keys cascade on delet
 - **data.ts** — mock data (currently used instead of API calls)
 - **types.ts** — shared TypeScript interfaces (`Snippet`, `NavItem`, `Tag`, `Language`)
 
-Styling uses Tailwind CSS with CSS-variable-based design tokens for light/dark theming, defined in `src/index.css` and configured in `tailwind.config.js`.
+Styling uses Tailwind CSS with CSS-variable-based design tokens for light/dark theming, defined in `src/index.css` and configured in `tailwind.config.ts`.
 
 ### API (`apps/api/`)
 Hono.js framework with `@hono/node-server`. The `src/` directory is not yet implemented — routes need to be added to connect the frontend to the database.
