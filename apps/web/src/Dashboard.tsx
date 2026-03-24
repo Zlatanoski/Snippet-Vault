@@ -5,7 +5,7 @@ import { SNIPPETS, NAV_ITEMS, TAGS } from './data';
 
 export default function Dashboard() {
     const [activeNavId, setActiveNavId] = useState('all');
-    const [selectedSnippetId, setSelectedSnippetId] = useState<string | null>('1');
+    const [selectedSnippetId, setSelectedSnippetId] = useState<string | null>('');
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const activeNav  = NAV_ITEMS.find((n) => n.id === activeNavId);
