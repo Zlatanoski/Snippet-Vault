@@ -24,7 +24,7 @@ export default function Dashboard() {
     return (
 
         // h-dvh = dynamic viewport height — fills screen correctly on mobile too
-        <div className="flex h-dvh w-screen  overflow-hidden bg-surface-raised">
+        <div className="flex h-dvh w-screen overflow-hidden bg-gray-50 dark:bg-neutral-900">
 
             <Sidebar
                 navItems={NAV_ITEMS}
@@ -34,19 +34,18 @@ export default function Dashboard() {
                 onNavSelect={handleNavSelect}
                 onTagSelect={handleTagSelect}
                 onClose={() => setSidebarOpen(false)}
-
             />
 
             <div className="flex flex-1 flex-col overflow-hidden">
                 <MainPanel
-
                     title={panelTitle}
                     snippets={SNIPPETS}
                     selectedId={selectedSnippetId}
-                    onSelectSnippet={setSelectedSnippetId}
+                    onSelect={setSelectedSnippetId}
                     onFilter={() => console.log('filter')}
-                    onNewSnippet={() => console.log('new snippet')}
-                    onMenuOpen={() => setSidebarOpen(true)}
+                    onNew={() => console.log('new snippet')}
+                    onToggleSidebar={() => setSidebarOpen(true)}
+                    isSidebarOpen={sidebarOpen}
                 />
             </div>
 

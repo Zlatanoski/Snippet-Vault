@@ -12,7 +12,7 @@ export function DashboardPreview() {
     const panelTitle = activeNav?.label ?? 'All snippets';
 
     return (
-        <div className="flex h-dvh w-screen overflow-hidden bg-surface-raised">
+        <div className="flex h-dvh w-screen overflow-hidden bg-gray-50 dark:bg-neutral-900">
             <Sidebar
                 navItems={NAV_ITEMS}
                 tags={TAGS}
@@ -27,10 +27,11 @@ export function DashboardPreview() {
                     title={panelTitle}
                     snippets={SNIPPETS}
                     selectedId={selectedSnippetId}
-                    onSelectSnippet={setSelectedSnippetId}
+                    onSelect={setSelectedSnippetId}
                     onFilter={() => {}}
-                    onNewSnippet={() => {}}
-                    onMenuOpen={() => setSidebarOpen(true)}
+                    onNew={() => {}}
+                    onToggleSidebar={() => setSidebarOpen(true)}
+                    isSidebarOpen={sidebarOpen}
                 />
             </div>
         </div>

@@ -5,7 +5,9 @@ export interface Snippet {
     title: string;
     language: Language;
     preview: string;
+    description?: string;
     tags: string[];
+    updatedAt: string;
 }
 
 export interface NavItem {
