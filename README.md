@@ -177,8 +177,13 @@ Contributions are welcome! This is a learning project being built in public.
 
 Please open an issue before working on large changes.
 
+[![Built with Claude](https://img.shields.io/badge/Built%20with-Claude%20AI-D97757?logo=anthropic&logoColor=white)](https://claude.ai)
+
 ---
 
 ## License
 
 MIT © [Zlatanoski](https://github.com/Zlatanoski)
+
+
+
