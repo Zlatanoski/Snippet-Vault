@@ -19,6 +19,7 @@ interface MainPanelProps {
     onToggleSidebar: () => void;
     title: string;
     isSidebarOpen: boolean;
+    onClose:() => void;
 }
 
 export default function MainPanel({
@@ -30,6 +31,7 @@ export default function MainPanel({
                                       onToggleSidebar,
                                       title,
                                       isSidebarOpen,
+                                      onClose,
                                   }: MainPanelProps) {
     return (
         <div className="flex h-full min-w-0">
@@ -168,7 +170,7 @@ export default function MainPanel({
 
 
             {selectedId && (
-                <EditorPane key={selectedId} snippetId={selectedId} />
+                <EditorPane  onClose={onClose} key={selectedId} snippetId={selectedId} />
             )}
         </div>
     );

@@ -46,6 +46,8 @@ export default function Dashboard() {
                     onNew={() => console.log('new snippet')}
                     onToggleSidebar={() => setSidebarOpen(true)}
                     isSidebarOpen={sidebarOpen}
+                    onClose={() => setSelectedSnippetId(null)}
+
                 />
             </div>
 
