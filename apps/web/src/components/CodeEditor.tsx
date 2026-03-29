@@ -7,6 +7,7 @@ import {sql} from "@codemirror/lang-sql";
 import {rust} from "@codemirror/lang-rust";
 import {json as jsonLang} from "@codemirror/lang-json";
 
+
 const LANG_MAP = {
     javascript: javascript(),
     typescript: javascript({ typescript: true }),
@@ -18,23 +19,36 @@ const LANG_MAP = {
     json: jsonLang(),
 }
 
-type Language = keyof typeof LANG_MAP;
+export type Language = keyof typeof LANG_MAP;
 
 interface CodeEditorProps {
-    value: string;
+
+    value:string;
     language?: Language;
-    onChange?: (value: string) => void;
+    onChange: (value: string) => void;
+
     readOnly?: boolean;
 }
 
-export default function CodeEditor({ value, language = 'javascript', onChange, readOnly = false }: CodeEditorProps) {
+export default function CodeEditor({value,language= 'javascript',   onChange, readOnly = false }: CodeEditorProps) {
+
+
+
     return (
-        <CodeMirror
+
+        <>
+
+
+
+
+            <CodeMirror
             value={value}
             extensions={[LANG_MAP[language]]}
             onChange={onChange}
             readOnly={readOnly}
             height="100%"
         />
+
+        </>
     );
 }

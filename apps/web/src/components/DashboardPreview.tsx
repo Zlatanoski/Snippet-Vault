@@ -32,6 +32,7 @@ export function DashboardPreview() {
                     onNew={() => {}}
                     onToggleSidebar={() => setSidebarOpen(true)}
                     isSidebarOpen={sidebarOpen}
+                    onClose={() => setSidebarOpen(false)}
                 />
             </div>
         </div>
