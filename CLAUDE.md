@@ -84,6 +84,12 @@ Hono.js framework with `@hono/node-server`. The `src/` directory is not yet impl
 - API backend is scaffolded but **has no routes implemented**
 - Database schema is defined and can be pushed with `db:push`
 
+## Planned Features
+- AI-powered "Explain Code" button (Anthropic API)
+- API key settings modal (user stores their own key)
+- Public snippet sharing via URL
+- Tag filtering in sidebar
+
 ## Code Style
 - Use **Biome** for formatting/linting, not ESLint or Prettier
 - All code in **TypeScript**, no plain JS files

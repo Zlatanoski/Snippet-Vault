@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import MainPanel from './components/MainPanel';
+import NewSnippetPanel from './components/NewSnippetPanel';
+import type { NewSnippetData } from './components/NewSnippetPanel';
 import { SNIPPETS, NAV_ITEMS, TAGS } from './data';
+
+type View = 'list' | 'new';
 
 export default function Dashboard() {
     const [activeNavId, setActiveNavId] = useState('all');
     const [selectedSnippetId, setSelectedSnippetId] = useState<string | null>('');
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [view, setView] = useState<View>('list');
 
     const activeNav  = NAV_ITEMS.find((n) => n.id === activeNavId);
     const panelTitle = activeNav?.label ?? 'All snippets';
@@ -14,6 +19,7 @@ export default function Dashboard() {
     function handleNavSelect(id: string) {
         setActiveNavId(id);
         setSidebarOpen(false); // close drawer on mobile after selection
+        setView('list');
     }
 
     function handleTagSelect(tagId: string) {
@@ -21,10 +27,15 @@ export default function Dashboard() {
         setSidebarOpen(false);
     }
 
+    function handleSave(data: NewSnippetData) {
+        console.log('Save snippet:', data);
+        setView('list');
+    }
+
     return (
 
         // h-dvh = dynamic viewport height — fills screen correctly on mobile too
-        <div className="flex h-dvh w-screen overflow-hidden bg-gray-50 dark:bg-neutral-900">
+        <div className="flex h-dvh w-full overflow-hidden bg-gray-50 dark:bg-neutral-900">
 
             <Sidebar
                 navItems={NAV_ITEMS}
@@ -37,18 +48,24 @@ export default function Dashboard() {
             />
 
             <div className="flex flex-1 flex-col overflow-hidden">
-                <MainPanel
-                    title={panelTitle}
-                    snippets={SNIPPETS}
-                    selectedId={selectedSnippetId}
-                    onSelect={setSelectedSnippetId}
-                    onFilter={() => console.log('filter')}
-                    onNew={() => console.log('new snippet')}
-                    onToggleSidebar={() => setSidebarOpen(true)}
-                    isSidebarOpen={sidebarOpen}
-                    onClose={() => setSelectedSnippetId(null)}
-
-                />
+                {view === 'new' ? (
+                    <NewSnippetPanel
+                        onSave={handleSave}
+                        onCancel={() => setView('list')}
+                    />
+                ) : (
+                    <MainPanel
+                        title={panelTitle}
+                        snippets={SNIPPETS}
+                        selectedId={selectedSnippetId}
+                        onSelect={setSelectedSnippetId}
+                        onFilter={() => console.log('filter')}
+                        onNew={() => setView('new')}
+                        onToggleSidebar={() => setSidebarOpen(true)}
+                        isSidebarOpen={sidebarOpen}
+                        onClose={() => setSelectedSnippetId(null)}
+                    />
+                )}
             </div>
 
         </div>

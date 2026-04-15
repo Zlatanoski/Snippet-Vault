@@ -1,3 +1,4 @@
+import { memo } from "react";
 
 interface SnippetCardProps {
     id: string;
@@ -33,7 +34,7 @@ function getLang(lang: string) {
     return LANG_STYLES[lang.toLowerCase()] ?? LANG_STYLES.default;
 }
 
-export default function SnippetCard({
+export default memo(function SnippetCard({
     id,
     title,
     language,
@@ -122,4 +123,4 @@ export default function SnippetCard({
             </div>
         </button>
     );
-}
+});

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import SnippetCard from "./SnippetCard";
 import EditorPane from "./EditorPane";
 
@@ -33,6 +34,11 @@ export default function MainPanel({
                                       isSidebarOpen,
                                       onClose,
                                   }: MainPanelProps) {
+    // Stable reference — without this, a new function is created every render,
+    // which would cause React.memo on SnippetCard to always see a changed prop
+    // and re-render every card anyway, defeating the memoization entirely.
+    const handleSelect = useCallback((id: string) => onSelect(id), [onSelect]);
+
     return (
         <div className="flex h-full min-w-0">
 
@@ -157,7 +163,7 @@ export default function MainPanel({
                                         <SnippetCard
                                             {...snippet}
                                             isSelected={snippet.id === selectedId}
-                                            onClick={onSelect}
+                                            onClick={handleSelect}
                                         />
                                     </li>
                                 ))}
