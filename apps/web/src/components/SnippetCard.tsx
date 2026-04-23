@@ -51,11 +51,11 @@ export default memo(function SnippetCard({
             onClick={() => onClick(id)}
             className={[
                 "w-full text-left relative rounded-xl border px-4 py-3 group",
-                "transition-all duration-150 ease-in-out",
+                "transition-all duration-200 ease-out",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 focus-visible:ring-offset-1",
                 isSelected
                     ? "bg-indigo-50 border-indigo-200 shadow-sm dark:bg-indigo-950/40 dark:border-indigo-800"
-                    : "bg-white border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-md active:scale-[0.995] dark:bg-neutral-800 dark:border-neutral-700",
+                    : "bg-white border-gray-200 shadow-sm cursor-pointer hover:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:hover:bg-neutral-700",
             ].join(" ")}
         >
             {/* Selected indicator — left accent bar */}

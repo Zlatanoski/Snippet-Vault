@@ -1,6 +1,14 @@
 
 import { useState, useEffect } from 'react';
-import { LayoutList, Star, Lock, ChevronDown, X, Search, Sun, Moon } from 'lucide-react';
+import { LayoutList, Star, Lock, X, Search, Sun, Moon, Settings, LogOut, User } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+} from './ui/dropdown-menu';
 import type { NavItem, Tag } from '../types';
 
 const NAV_ICONS: Record<NavItem['icon'], React.ReactNode> = {
@@ -103,22 +111,56 @@ export default function Sidebar({ navItems, tags, activeNavId, isOpen, onNavSele
                 isOpen ? 'translate-x-0' : '-translate-x-full',
             ].join(' ')}>
 
-                {/* Logo + search */}
+                {/* Header — username + avatar */}
                 <div className="border-b border-gray-200 dark:border-neutral-800 px-3 pb-3 pt-4">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
-                            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-950">
-                                <ChevronDown className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" strokeWidth={2} />
-                            </div>
-                            Snippet Vault
+                        <span className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                            Zlatanoski
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button className="cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60">
+                                        <Avatar size="sm" className="shrink-0">
+                                            <AvatarImage src="" alt="Profile" />
+                                            <AvatarFallback>ZO</AvatarFallback>
+                                        </Avatar>
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent side="right" align="start" className="w-64">
+                                    {/* Section 1 — identity */}
+                                    <div className="flex items-center gap-3 px-3 py-2.5">
+                                        <Avatar size="default" className="shrink-0">
+                                            <AvatarImage src="" alt="Profile" />
+                                            <AvatarFallback>ZO</AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex flex-col min-w-0">
+                                            <span className="text-sm font-semibold text-gray-900 dark:text-white truncate">Zlatanoski</span>
+                                            <span className="text-xs text-gray-400 dark:text-gray-500 truncate">nikolasiljanovski969@gmail.com</span>
+                                        </div>
+                                    </div>
+                                    <DropdownMenuSeparator />
+                                    {/* Section 2 — settings */}
+                                    <DropdownMenuItem>
+                                        <Settings className="h-4 w-4 shrink-0 text-gray-400" />
+                                        Settings
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    {/* Section 3 — log out */}
+                                    <DropdownMenuItem className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/30">
+                                        <LogOut className="h-4 w-4 shrink-0" />
+                                        Log out
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            {/* Mobile close button */}
+                            <button
+                                onClick={onClose}
+                                className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800 md:hidden"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
                         </div>
-                        {/* Mobile close button */}
-                        <button
-                            onClick={onClose}
-                            className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800 md:hidden"
-                        >
-                            <X className="h-4 w-4" />
-                        </button>
                     </div>
 
                     <div className="mt-3 flex cursor-text items-center gap-2 rounded-lg border border-gray-200 dark:border-neutral-700 bg-gray-50 dark:bg-neutral-800 px-3 py-2 text-sm text-gray-400">
