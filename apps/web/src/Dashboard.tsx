@@ -2,23 +2,50 @@ import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import MainPanel from './components/MainPanel';
 import NewSnippetPanel from './components/NewSnippetPanel';
+import MembersPanel from './components/MembersPanel';
+import InvitationsPanel from './components/InvitationsPanel';
+import ProfilePanel from './components/ProfilePanel';
+import CollectionsPanel from './components/CollectionsPanel';
+import SearchPalette from './components/SearchPalette';
 import type { NewSnippetData } from './components/NewSnippetPanel';
 import { SNIPPETS, NAV_ITEMS, TAGS } from './data';
 
-type View = 'list' | 'new';
+type View = 'list' | 'new' | 'members' | 'invitations' | 'profile' | 'collections';
 
 export default function Dashboard() {
-    const [activeNavId, setActiveNavId] = useState('all');
+    const [activeNavId, setActiveNavId]       = useState('all');
     const [selectedSnippetId, setSelectedSnippetId] = useState<string | null>('');
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [view, setView] = useState<View>('list');
+    const [sidebarOpen, setSidebarOpen]       = useState(false);
+    const [view, setView]                     = useState<View>('list');
+    const [activeProject, setActiveProject]   = useState('proj-1');
+    const [searchOpen, setSearchOpen]         = useState(false);
 
     const activeNav  = NAV_ITEMS.find((n) => n.id === activeNavId);
     const panelTitle = activeNav?.label ?? 'All snippets';
 
     function handleNavSelect(id: string) {
+        setSidebarOpen(false);
+        if (id === 'members') {
+            setView('members');
+            setActiveNavId('members');
+            return;
+        }
+        if (id === 'invitations') {
+            setView('invitations');
+            setActiveNavId('invitations');
+            return;
+        }
+        if (id === 'profile') {
+            setView('profile');
+            setActiveNavId('profile');
+            return;
+        }
+        if (id === 'collections') {
+            setView('collections');
+            setActiveNavId('collections');
+            return;
+        }
         setActiveNavId(id);
-        setSidebarOpen(false); // close drawer on mobile after selection
         setView('list');
     }
 
@@ -27,33 +54,37 @@ export default function Dashboard() {
         setSidebarOpen(false);
     }
 
+    function handleSelectProject(projectId: string) {
+        setActiveProject(projectId);
+        setView('members');
+        setActiveNavId('members');
+        setSidebarOpen(false);
+    }
+
     function handleSave(data: NewSnippetData) {
         console.log('Save snippet:', data);
         setView('list');
     }
 
-    return (
-
-        // h-dvh = dynamic viewport height — fills screen correctly on mobile too
-        <div className="flex h-dvh w-full overflow-hidden bg-gray-50 dark:bg-neutral-900">
-
-            <Sidebar
-                navItems={NAV_ITEMS}
-                tags={TAGS}
-                activeNavId={activeNavId}
-                isOpen={sidebarOpen}
-                onNavSelect={handleNavSelect}
-                onTagSelect={handleTagSelect}
-                onClose={() => setSidebarOpen(false)}
-            />
-
-            <div className="flex flex-1 flex-col overflow-hidden">
-                {view === 'new' ? (
+    function renderMain() {
+        switch (view) {
+            case 'collections':
+                return <CollectionsPanel />;
+            case 'members':
+                return <MembersPanel activeProject={activeProject} onSelectProject={handleSelectProject} />;
+            case 'invitations':
+                return <InvitationsPanel />;
+            case 'profile':
+                return <ProfilePanel />;
+            case 'new':
+                return (
                     <NewSnippetPanel
                         onSave={handleSave}
                         onCancel={() => setView('list')}
                     />
-                ) : (
+                );
+            default:
+                return (
                     <MainPanel
                         title={panelTitle}
                         snippets={SNIPPETS}
@@ -65,9 +96,38 @@ export default function Dashboard() {
                         isSidebarOpen={sidebarOpen}
                         onClose={() => setSelectedSnippetId(null)}
                     />
-                )}
-            </div>
+                );
+        }
+    }
 
+    return (
+        <div className="flex h-dvh w-full overflow-hidden bg-gray-50 dark:bg-neutral-900">
+            <SearchPalette
+                open={searchOpen}
+                onClose={() => setSearchOpen(false)}
+                onNavigate={(id) => {
+                    if (id === '__open__') { setSearchOpen(true); return; }
+                    handleNavSelect(id);
+                    if (!['members','invitations','profile','collections'].includes(id)) {
+                        setSelectedSnippetId(id);
+                    }
+                }}
+            />
+            <Sidebar
+                navItems={NAV_ITEMS}
+                tags={TAGS}
+                activeNavId={activeNavId}
+                isOpen={sidebarOpen}
+                activeProject={activeProject}
+                onNavSelect={handleNavSelect}
+                onTagSelect={handleTagSelect}
+                onClose={() => setSidebarOpen(false)}
+                onSelectProject={handleSelectProject}
+                onSearchOpen={() => setSearchOpen(true)}
+            />
+            <div className="flex flex-1 flex-col overflow-hidden">
+                {renderMain()}
+            </div>
         </div>
     );
 }
