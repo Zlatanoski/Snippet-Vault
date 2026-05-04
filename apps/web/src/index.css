@@ -1,10 +1,10 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
-@import "@fontsource-variable/geist";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/jetbrains-mono";
+@import '@fontsource-variable/geist';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/jetbrains-mono';
 
 @theme inline {
   --color-background: var(--background);
@@ -121,12 +121,18 @@
   }
   body {
     @apply font-sans bg-background text-foreground;
-    font-family: 'Geist Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family:
+      'Geist Variable',
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
   }
   html {
     @apply font-mono;
   }
-  html, body, #root {
+  html,
+  body,
+  #root {
     height: 100%;
     margin: 0;
     padding: 0;

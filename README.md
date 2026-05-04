@@ -14,18 +14,17 @@ A self-hostable, open-source code snippet manager — a modern alternative to Gi
 
 Snippet Vault lets you store and manage code snippets across languages, organize them into collections, and tag them for quick retrieval. Unlike GitHub Gists, it's fully self-hosted — your code stays on your machine or server.
 
-
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React + TypeScript + Vite + Tailwind CSS |
-| Backend | [Hono](https://hono.dev/) (lightweight TypeScript web framework) |
-| Database | PostgreSQL + [Drizzle ORM](https://orm.drizzle.team/) |
-| Auth | JWT (via `jose`) + bcrypt password hashing |
-| Monorepo | pnpm workspaces |
+| Layer    | Technology                                                       |
+| -------- | ---------------------------------------------------------------- |
+| Frontend | React + TypeScript + Vite + Tailwind CSS                         |
+| Backend  | [Hono](https://hono.dev/) (lightweight TypeScript web framework) |
+| Database | PostgreSQL + [Drizzle ORM](https://orm.drizzle.team/)            |
+| Auth     | JWT (via `jose`) + bcrypt password hashing                       |
+| Monorepo | pnpm workspaces                                                  |
 
 ---
 
@@ -45,12 +44,14 @@ snippet-vault/
 ## What's Been Built So Far
 
 ### ✅ Monorepo Setup
+
 - pnpm workspace monorepo with three packages: `web`, `api`, `db`
 - Shared TypeScript config with `moduleResolution: "bundler"`
 - Inter-package dependencies via `workspace:*` protocol
 - Root `.gitignore` covering secrets, build artifacts, and `node_modules`
 
 ### ✅ Database Layer (`packages/db`)
+
 - Full PostgreSQL schema defined with Drizzle ORM
 - Five tables: `users`, `snippets`, `collections`, `tags`, `snippet_tags`
 - `cuid2` used for all primary keys (collision-resistant, URL-safe IDs)
@@ -60,26 +61,32 @@ snippet-vault/
 - Schema pushed to local PostgreSQL via `drizzle-kit`
 
 ### ✅ Backend API (`apps/api`)
+
 Built with [Hono](https://hono.dev/) on Node.js with the following:
 
 **Auth Routes** (`/auth`)
+
 - `POST /auth/register` — validates input with Zod, checks for duplicate email, hashes password with bcrypt, returns JWT
 - `POST /auth/login` — verifies credentials, returns signed JWT
 
 **Snippet Routes** (`/snippets`) — protected by JWT middleware
+
 - `GET /snippets` — list all snippets for authenticated user
 - `POST /snippets` — create a new snippet
 - `PUT /snippets/:id` — update a snippet
 - `DELETE /snippets/:id` — delete a snippet
 
 **Middleware**
+
 - `middleware/auth.ts` — JWT verification on all protected routes; rejects requests with missing or invalid tokens
 
 **Validation**
+
 - Zod v4 schemas for all request bodies
 - `@hono/zod-validator` middleware returns `400` automatically on invalid input
 
 ### ✅ Frontend (`apps/web`)
+
 - Dashboard UI with three-column layout: sidebar, snippet list, detail panel
 - `SnippetCard` component with language badge (`LangBadge`)
 - `DetailPanel` showing full code with a copy button
@@ -98,19 +105,20 @@ users ──┬──< snippets >──< snippet_tags >── tags
                 └──< snippets (collection_id, nullable)
 ```
 
-| Table | Key Fields |
-|---|---|
-| `users` | `id`, `email` (unique), `password_hash`, `created_at` |
-| `snippets` | `id`, `title`, `code`, `language`, `visibility`, `user_id`, `collection_id` |
-| `collections` | `id`, `name`, `user_id` |
-| `tags` | `id`, `name`, `user_id` |
-| `snippet_tags` | `snippet_id`, `tag_id` (composite PK) |
+| Table          | Key Fields                                                                  |
+| -------------- | --------------------------------------------------------------------------- |
+| `users`        | `id`, `email` (unique), `password_hash`, `created_at`                       |
+| `snippets`     | `id`, `title`, `code`, `language`, `visibility`, `user_id`, `collection_id` |
+| `collections`  | `id`, `name`, `user_id`                                                     |
+| `tags`         | `id`, `name`, `user_id`                                                     |
+| `snippet_tags` | `snippet_id`, `tag_id` (composite PK)                                       |
 
 ---
 
 ## Getting Started (Local Development)
 
 ### Prerequisites
+
 - Node.js 22+
 - pnpm 9+
 - PostgreSQL (running locally)
@@ -131,6 +139,7 @@ cp .env.example .env
 ```
 
 **.env example:**
+
 ```env
 DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/snippet_vault
 JWT_SECRET=your-secret-key-here
@@ -184,6 +193,3 @@ Please open an issue before working on large changes.
 ## License
 
 MIT © [Zlatanoski](https://github.com/Zlatanoski)
-
-
-

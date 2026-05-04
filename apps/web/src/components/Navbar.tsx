@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { Code2, ChevronDown, Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { Code2, ChevronDown, Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
   SheetTitle,
-} from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/sheet';
+import { Separator } from '@/components/ui/separator';
 
 interface NavLink {
   label: string;
@@ -15,9 +15,9 @@ interface NavLink {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: "Product", hasDropdown: true },
-  { label: "Docs", hasDropdown: true },
-  { label: "About", hasDropdown: true },
+  { label: 'Product', hasDropdown: true },
+  { label: 'Docs', hasDropdown: true },
+  { label: 'About', hasDropdown: true },
 ];
 
 export function Navbar() {
@@ -26,7 +26,6 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-950/90">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-600">
@@ -47,7 +46,9 @@ export function Navbar() {
               className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
             >
               {label}
-              {hasDropdown && <ChevronDown className="ml-0.5 h-3.5 w-3.5 opacity-50" />}
+              {hasDropdown && (
+                <ChevronDown className="ml-0.5 h-3.5 w-3.5 opacity-50" />
+              )}
             </Button>
           ))}
         </div>
@@ -85,7 +86,6 @@ export function Navbar() {
 
           <SheetContent side="right" className="w-72">
             <SheetTitle className="text-lg font-semibold">Menu</SheetTitle>
-
             <nav className="mt-6 flex flex-col gap-1">
               {NAV_LINKS.map(({ label }) => (
                 <Button
@@ -98,10 +98,7 @@ export function Navbar() {
                 </Button>
               ))}
             </nav>
-
-            <Separator className="my-4" />
-
-       '
+            <Separator className="my-4" />'
             <div className="flex flex-col gap-2">
               <Button className="w-full border border-blue-200 bg-white text-blue-600 hover:bg-blue-50">
                 Sign In
@@ -112,7 +109,6 @@ export function Navbar() {
             </div>
           </SheetContent>
         </Sheet>
-
       </div>
     </nav>
   );
